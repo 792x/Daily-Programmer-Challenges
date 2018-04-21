@@ -24,7 +24,8 @@
 using namespace std;
 
 /*
- create a stopwatch program. this program should have start, stop, and lap options, and it should write out to a file to be viewed later.
+ * create a stopwatch program. this program should have start, stop, and lap options, and it should write out to a file to be viewed later.
+ * https://www.reddit.com/r/dailyprogrammer/comments/pjsdx/difficult_challenge_2/
  */
 
 double elapsedTime(chrono::time_point<chrono::system_clock> end, chrono::time_point<chrono::system_clock> begin){
