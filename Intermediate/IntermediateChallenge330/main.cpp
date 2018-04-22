@@ -30,6 +30,41 @@ using namespace std;
 
 vector<string> extra = {"thousand, ", "million, ", "billion, ", "trilion, ", "quadrillion, "};
 
+
+string wordify(float input){
+    
+    string stringed = to_string(input);
+    istringstream iss(stringed);
+    vector<string> tokens;
+    string token;
+    while (getline(iss, token, '.')) {
+        if (!token.empty()){
+            tokens.push_back(token);
+        }
+    }
+    
+    string cents = tokens[1];
+    
+    if (tokens.size() < 2) {
+        cents = "and zero cents.";
+    } else if (stoi(tokens[1]) == 0) {
+        cents = "and zero cents.";
+    } else {
+        cents = " and " + numbersToString(stoi(tokens[1].substr(0,2))) + "cents.";
+    }
+
+    string integers = numbersToString((int) (stod(tokens[0])) % 1000);
+
+    int length = tokens[0].length();
+    long original = (stod(tokens[0]));
+    for (int i = 0; i < length - 3; i += 3) {
+        long factor = (long) (1000 * pow(10, i));
+        integers = numbersToString((int) (original / factor % 1000)) + extra[i / 3] + integers;
+    }
+    return (integers + "euro" + cents);
+    
+}
+
 string numbersToString(int input) {
 
     switch (input) {
@@ -110,40 +145,6 @@ string numbersToString(int input) {
 
             return result;
     }
-}
-
-string wordify(float input){
-    
-    string stringed = to_string(input);
-    istringstream iss(stringed);
-    vector<string> tokens;
-    string token;
-    while (getline(iss, token, '.')) {
-        if (!token.empty()){
-            tokens.push_back(token);
-        }
-    }
-    
-    string cents = tokens[1];
-    
-    if (tokens.size() < 2) {
-        cents = "and zero cents.";
-    } else if (stoi(tokens[1]) == 0) {
-        cents = "and zero cents.";
-    } else {
-        cents = " and " + numbersToString(stoi(tokens[1].substr(0,2))) + "cents.";
-    }
-
-    string integers = numbersToString((int) (stod(tokens[0])) % 1000);
-
-    int length = tokens[0].length();
-    long original = (stod(tokens[0]));
-    for (int i = 0; i < length - 3; i += 3) {
-        long factor = (long) (1000 * pow(10, i));
-        integers = numbersToString((int) (original / factor % 1000)) + extra[i / 3] + integers;
-    }
-    return (integers + "euro" + cents);
-    
 }
  
 int main(int argc, char** argv) {
